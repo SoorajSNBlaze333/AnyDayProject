@@ -1,0 +1,101 @@
+import React from 'react';
+import { provider, auth } from '../Config/firebase';
+import { Redirect } from 'react-router-dom';
+
+
+class LogComponent extends React.Component{
+  constructor() {
+    super();
+    this.state = {
+      user: null
+    }
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+  logout() {
+    auth.signOut().then(() =>
+      this.setState({
+        user: null
+      })
+    )
+  }
+  login() {
+    auth.signInWithPopup(provider).then((result) => {
+      const user = result.user.displayName;
+      const useremail = result.user.email;
+      window.localStorage.setItem("email", useremail);
+      window.localStorage.setItem("id", result.user.uid);
+      this.setState({
+        user
+      });
+    });
+
+  }
+  render() {import React from 'react';
+import { provider, auth } from '../Config/firebase';
+import { Redirect } from 'react-router-dom';
+
+
+class LogComponent extends React.Component{
+  constructor() {
+    super();
+    this.state = {
+      user: null
+    }
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+  logout() {
+    auth.signOut().then(() =>
+      this.setState({
+        user: null
+      })
+    )
+  }
+  login() {
+    auth.signInWithPopup(provider).then((result) => {
+      const user = result.user.displayName;
+      const useremail = result.user.email;
+      window.localStorage.setItem("email", useremail);
+      window.localStorage.setItem("id", result.user.uid);
+      this.setState({
+        user
+      });
+    });
+
+  }
+  render() {
+    return (
+      <div>
+        <header>
+          {this.state.user ?
+            <div>
+              {this.state.user}
+              <button onClick={this.logout}>Log Out</button>
+            </div>
+            :
+            <button onClick={this.login}>Log In</button>
+          }
+        </header>
+      </div>
+    )
+  }
+}
+export default LogComponent;
+    return (
+      <div>
+        <header>
+          {this.state.user ?
+            <div>
+              {this.state.user}
+              <button onClick={this.logout}>Log Out</button>
+            </div>
+            :
+            <button onClick={this.login}>Log In</button>
+          }
+        </header>
+      </div>
+    )
+  }
+}
+export default LogComponent;
