@@ -56,7 +56,7 @@ class App extends React.Component{
       <Router>
         <Switch>
           <Layout.NonPrivateRoute exact path="/home" component={Container.Home} />
-          <Layout.PrivateRoute exact path="/dashboard" component={Container.Dashboard}/>
+          <Layout.NonPrivateRoute exact path="/dashboard" component={Container.Dashboard}/>
         </Switch>
         {/* <button onClick={() => setVal(SETTRUE)}>SET TRUE</button>
         <br/>
