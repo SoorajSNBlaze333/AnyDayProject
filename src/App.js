@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router , Switch , Route  } from 'react-router-dom';
-import Main from './containers/Main';
+import Home from './containers/Home';
 
 
 class App extends React.Component{
@@ -10,7 +10,7 @@ class App extends React.Component{
         <Router>
           <div>
             <Switch>
-              <Route exact path="/" component={Main}/>
+              <Route exact path="/login" component={Home} />
             </Switch>
           </div>
         </Router>
