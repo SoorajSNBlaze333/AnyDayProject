@@ -16,10 +16,10 @@
 }
 .color:focus{
     background-color: transparent;
-    color:#fff; 
+    color:#fff;
     border-color: #fff;
 }
-#box{
+.box{
     background-image: linear-gradient(left,rgb(226, 55, 55),rgb(226, 132, 55));
     border-radius: 0%;
     height:auto;
@@ -49,5 +49,5 @@
 .button-align{
     display: flex;
     align-items: center;
-    justify-items : flex-end; 
+    justify-items : flex-end;
 }

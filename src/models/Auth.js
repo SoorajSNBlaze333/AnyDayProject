@@ -1,5 +1,5 @@
 import { auth , provider } from '../config/firebase';
-import { LoggedIn, LoggedOut , getCheckIn } from '../Redux/actions/actions';
+import { LoggedIn, LoggedOut , getCheckIn , setCheckIn} from '../Redux/actions/actions';
 import { store } from '../Redux/reducers/rootreducer';
 import { firestoreDb } from '../config/firestore';
 import moment from 'moment';
@@ -8,9 +8,7 @@ import moment from 'moment';
 export const login = () => {
   auth.signInWithPopup(provider)
     .then((result) => {
-      const user = result.user;
-      const userId = result.user.uid;
-      firestoreDb.collection("users").doc(userId).set({
+      firestoreDb.collection("users").doc(result.user.uid).set({
         uid: result.user.uid,
         name: result.user.displayName,
         email: result.user.email,
@@ -21,7 +19,7 @@ export const login = () => {
         .catch(function (error) {
           console.error("Error writing document: ", error);
         });
-      store.dispatch(LoggedIn(user));
+      store.dispatch(LoggedIn(result.user));
     });
 }
 
@@ -45,11 +43,14 @@ export const authenticate = () => {
   })
 }
 
-export const checkInStatus = async(uid) => {
+export const getCheckInStatus = (uid) => {
   return firestoreDb.collection("checkIns").doc(uid).get()
     .then(function (doc) {
       if (doc.exists) {
         store.dispatch(getCheckIn(doc.data()));
+      }
+      else {
+        return false
       }
     });
 }
@@ -57,13 +58,24 @@ export const checkInStatus = async(uid) => {
 export const logCheckIn = (uid) => {
   firestoreDb.collection("checkIns").doc(uid).set({
     uid: uid,
-    checkInDate: moment().toDate(),
-    checkInTime: moment().toDate().getTime()
+    checkInDate: moment().format("MM-DD-YYYY"),
+    checkInTime: moment().unix(),
+    checkOutTime: null,
+    text: ''
   })
   .then(function () {
     console.log("Checked In successfully");
     })
   .catch(function (error) {
     console.error("Error Checking in : ", error);
-  });
+    });
+  getCheckInStatus(uid);
+}
+
+export const updateCheckIn = (uid , text , time) => {
+  firestoreDb.collection("checkIns").doc(uid).update({
+    text: text,
+    checkOutTime : time
+  })
+  getCheckInStatus(uid);
 }

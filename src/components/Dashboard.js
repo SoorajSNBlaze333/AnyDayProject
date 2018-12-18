@@ -1,52 +1,69 @@
 import React from 'react';
-import { logout , authenticate , checkInStatus , logCheckIn } from '../models/Auth';
+import { logout , authenticate , getCheckInStatus , logCheckIn , updateCheckIn } from '../models/Auth';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      todo: ''
+      text:''
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
     authenticate();
-    this.checkedInStatus();
+    var uid = this.props.userId;
+    getCheckInStatus(uid);
   }
   checkin() {
-    const uid = this.props.userId;
-    //console.log(uid);
+    var uid = this.props.userId;
     logCheckIn(uid);
   }
-  renderCheckIn() {
-    return <div><button onClick={() => this.checkin()}>CheckIn</button></div>
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
-  renderCheckOut() {
-    return  <form>
-              <input type="textarea" placeholder="..." />
-              <button>CheckOut</button>
-            </form>
+  handleSubmit(e) {
+    var uid = this.props.userId;
+    e.preventDefault();
+    updateCheckIn(uid, this.state.text , moment().unix());
+    this.setState({
+      text:''
+    })
   }
-  checkedInStatus = () => {
-    const uid = this.props.userId;
-    var data = checkInStatus(uid);
-    console.log(data);
-    // if (data) {
-    //   return this.renderCheckOut();
-    // }
-    // else {
-    //   return this.renderCheckIn();
-    // }
-    return <div></div>
+  renderCheckedIn = () => {
+    var uid = this.props.userId;
+    let data = this.props.checkInInfo;
+    let checkOutDate = this.props.checkInInfo.checkOutTime;
+    if (data.length===0)
+    {
+      return <div><button onClick={() => this.checkin()}>CheckIn</button></div>
+    }
+    else
+    {
+      if (checkOutDate)
+      {
+        return <div>Thanks for Checking in today</div>
+      }
+      else {
+        return <form onSubmit={this.handleSubmit}>
+          <input type="textarea" name="text" placeholder="CheckOut message" onChange={this.handleChange} />
+          <button>CheckOut</button>
+        </form>
+      }
+    }
+
   }
   render() {
-    const userInfo = this.props.userInfo;
+    var userInfo = this.props.userInfo;
     return (
       <div>
         Logged in as "{userInfo}"
         <button onClick={logout}>Logout</button>
-
-        {this.checkedInStatus()}
+        {this.renderCheckedIn()}
       </div>
     )
   }
@@ -55,7 +72,8 @@ const mapStateToProps = (state) => {
   return {
     userInfo: state.currentUser.displayName,
     userId: state.currentUser.uid,
-    checkInInfo: state.checkIn
+    loader: state.loader,
+    checkInInfo : state.checkIn
   }
 }
 export default connect(mapStateToProps)(Dashboard);

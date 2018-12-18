@@ -2,7 +2,8 @@ import { createStore } from 'redux';
 
 const initialState = {
     currentUser: null,
-    checkIn : []
+    checkIn: [],
+    loader: false
 }
 
 const rootreducer = (state = initialState , action ) => {
@@ -15,7 +16,7 @@ const rootreducer = (state = initialState , action ) => {
             return {...state,
             currentUser : action.payload
             }
-        case 'CHECK_IN':
+        case 'GET_CHECK_IN':
             return {...state,
             checkIn : action.data
             }

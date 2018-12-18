@@ -1,5 +1,3 @@
-
-
 export function LoggedIn(user){
     return {
         type: 'LOGIN_USER',
@@ -12,10 +10,9 @@ export function LoggedOut() {
         payload: null
     }
 }
-
 export function getCheckIn(data) {
     return {
-        type: 'CHECK_IN',
+        type: 'GET_CHECK_IN',
         data
     }
 }
