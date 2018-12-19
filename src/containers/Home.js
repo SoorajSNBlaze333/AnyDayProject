@@ -1,38 +1,27 @@
 import React from 'react';
-import { login, authenticate } from '../models/Auth';
+import { logIn } from '../models/Auth';
 import { connect } from 'react-redux';
-import Dashboard from '../components/Dashboard';
+import { Loader } from 'react-bulma-components/full';
 
 class Home extends React.Component {
-    componentDidMount() {
-        authenticate();
-    }
     renderComponent() {
-        const currentuser = this.props.currentUser;
-        if (currentuser) {
-            return this.renderDashboard();
+        const loader = this.props.loader;
+        const user = this.props.user;
+        if (user) {
+            if (loader) {
+                return <Loader className="loader" />
+            }
         }
         else {
-            return this.renderLogin();
+            if (loader) {
+                return <Loader className="loader" />
+            }
+            else {
+                return <button onClick={logIn}>Login</button>
+            }
         }
     }
-    renderLogin() {
-        return (
-            <div>
-                <button onClick={login}>Login</button>
-            </div>
-        )
-    }
-    renderDashboard() {
-        return (
-            <div>
-                <Dashboard/>
-            </div>
-        )
-    }
-
     render() {
-
         return (
             <div>
                 {this.renderComponent()}
@@ -43,7 +32,8 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
-        currentUser: state.currentUser,
+        user : state.currentUser,
+        loader: state.loader,
     }
 }
 export default connect(mapStateToProps)(Home);

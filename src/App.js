@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router , Switch , Route  } from 'react-router-dom';
 import Home from './containers/Home';
+import * as Layout from './layouts/index'
+import Dashboard from './containers/Dashboard';
 
 
 class App extends React.Component{
@@ -10,7 +12,8 @@ class App extends React.Component{
         <Router>
           <div>
             <Switch>
-              <Route exact path="/login" component={Home} />
+              <Layout.NonPrivateRoute exact path="/" component={Home} />
+              <Layout.PrivateRoute exact path="/dashboard" component={Dashboard}/>
             </Switch>
           </div>
         </Router>

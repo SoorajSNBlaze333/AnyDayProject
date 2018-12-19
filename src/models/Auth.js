@@ -1,13 +1,25 @@
 import { auth , provider } from '../config/firebase';
-import { LoggedIn, LoggedOut , getCheckIn , setCheckIn} from '../Redux/actions/actions';
-import { store } from '../Redux/reducers/rootreducer';
+import {  logOutUser , loginUser, loginSuccess, loginFailure, requestCheckIn, recieveCheckIn, noCheckIn , errorCheckIn } from '../Redux/actions/actions';
+import { store } from '../Redux/store/store';
 import { firestoreDb } from '../config/firestore';
-import moment from 'moment';
 
 //Google sign in using provider from firebase
-export const login = () => {
-  auth.signInWithPopup(provider)
-    .then((result) => {
+export const logIn = () => {
+  store.dispatch((dispatch) => {
+    dispatch(loginUser())
+    auth.signInWithPopup(provider)
+      .then((result) => {
+        dispatch(loginSuccess(result.user))
+        addUser(result)
+      })
+      .catch((error) => {
+        dispatch(loginFailure(error))
+      })
+  })
+}
+
+//add logged in user to firestore
+const addUser = (result) => {
       firestoreDb.collection("users").doc(result.user.uid).set({
         uid: result.user.uid,
         name: result.user.displayName,
@@ -19,63 +31,32 @@ export const login = () => {
         .catch(function (error) {
           console.error("Error writing document: ", error);
         });
-      store.dispatch(LoggedIn(result.user));
-    });
 }
 
 //Google sign out
-export const logout = () => {
+export const logOut = () => {
   auth.signOut()
-     .then(() => {
-      store.dispatch(LoggedOut());
+    .then(() => {
+      store.dispatch(logOutUser());
      });
 }
 
-//Used to authenticate user if refreshed
-export const authenticate = () => {
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      store.dispatch(LoggedIn(user));
-    }
-    else {
-      store.dispatch(LoggedOut());
-    }
-  })
-}
 
+//Check if check in data for the user exists
 export const getCheckInStatus = (uid) => {
-  return firestoreDb.collection("checkIns").doc(uid).get()
-    .then(function (doc) {
-      if (doc.exists) {
-        store.dispatch(getCheckIn(doc.data()));
-      }
-      else {
-        return false
-      }
-    });
-}
-
-export const logCheckIn = (uid) => {
-  firestoreDb.collection("checkIns").doc(uid).set({
-    uid: uid,
-    checkInDate: moment().format("MM-DD-YYYY"),
-    checkInTime: moment().unix(),
-    checkOutTime: null,
-    text: ''
+   store.dispatch((dispatch) => {
+     dispatch(requestCheckIn())
+     firestoreDb.collection("checkIns").doc(uid).get()
+      .then(function (doc) {
+        if (doc.exists) {
+          dispatch(recieveCheckIn(doc.data()))
+        }
+        else {
+          dispatch(noCheckIn())
+        }
+      })
+      .catch(function (error) {
+        dispatch(errorCheckIn(error))
+      })
   })
-  .then(function () {
-    console.log("Checked In successfully");
-    })
-  .catch(function (error) {
-    console.error("Error Checking in : ", error);
-    });
-  getCheckInStatus(uid);
-}
-
-export const updateCheckIn = (uid , text , time) => {
-  firestoreDb.collection("checkIns").doc(uid).update({
-    text: text,
-    checkOutTime : time
-  })
-  getCheckInStatus(uid);
 }

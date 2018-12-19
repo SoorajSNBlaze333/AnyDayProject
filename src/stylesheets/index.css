@@ -51,3 +51,10 @@
     align-items: center;
     justify-items : flex-end;
 }
+.loader{
+    border:3px solid red;
+    border-top-color: transparent;
+    border-right-color : transparent;
+    height:25px;
+    width:25px;
+}
