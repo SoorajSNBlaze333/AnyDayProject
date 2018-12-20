@@ -2,6 +2,7 @@ import { auth , provider } from '../config/firebase';
 import {  logOutUser , loginUser, loginSuccess, loginFailure, requestCheckInStatus, recieveCheckInStatus, noCheckInStatus , errorCheckInStatus } from '../Redux/actions/actions';
 import { store } from '../Redux/store/store';
 import { firestoreDb } from '../config/firestore';
+import moment from 'moment';
 
 
 
@@ -51,10 +52,10 @@ export const logOut = () => {
 
 
 //Check if check in data for the user exists
-export const getCheckInStatus = (uid) => {
+export const getCheckInStatus = (user) => {
    store.dispatch((dispatch) => {
      dispatch(requestCheckInStatus())
-     firestoreDb.collection("checkIns").doc(uid).get()
+     firestoreDb.collection("checkIns").doc(user.uid).get()
       .then(function (doc) {
         if (doc.exists) {
           dispatch(recieveCheckInStatus(doc.data()))
@@ -64,9 +65,37 @@ export const getCheckInStatus = (uid) => {
         }
       })
       .catch(function (error) {
-        dispatch(errorCheckInStatus(error))
+          dispatch(errorCheckInStatus(error))
       })
   })
 }
 
+
+
 //check into firestore
+export const checkInFirestore = (check,user) => {
+  if (check)
+  {
+    firestoreDb.collection("checkIns").doc(user.uid).update({
+      uid: user.uid,
+    })
+      .then(function () {
+        console.log("Updated successfully");
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
+  }
+  else {
+    firestoreDb.collection("checkIns").doc(user.uid).set({
+      uid: user.uid,
+    })
+      .then(function () {
+        console.log("Checked In successfully");
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
+  }
+  getCheckInStatus(user);
+}

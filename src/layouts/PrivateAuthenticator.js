@@ -23,7 +23,7 @@ class PrivateAuthenticator extends React.Component {
       auth.onAuthStateChanged((user) => {
         if (user) {
           dispatch(loginSuccess(user))
-          getCheckInStatus(user.uid)
+          getCheckInStatus(user)
           this.setState({
             authenticated:true,
             prevlink: null
@@ -33,7 +33,7 @@ class PrivateAuthenticator extends React.Component {
           dispatch(logOutUser())
           this.setState({
             authenticated: false,
-            prevlink:'/login'
+            prevlink:'/'
           })
         }
       })

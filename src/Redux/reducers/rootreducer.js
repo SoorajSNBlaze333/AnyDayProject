@@ -53,6 +53,7 @@ const rootReducer = (state = initialState , action ) => {
         case "ERROR_CHECK_IN_STATUS": {
             return {
                 ...state,
+                checkIn: null,
                 checkInError: action.payload,
                 loader:false
             }

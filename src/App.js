@@ -11,7 +11,7 @@ class App extends React.Component{
         <Router>
           <div>
             <Switch>
-              <Layout.NonPrivateRoute exact path="/login" component={Container.Login} />
+              <Layout.NonPrivateRoute exact path="/" component={Container.Login} />
               <Layout.PrivateRoute exact path="/dashboard" component={Container.Dashboard}/>
             </Switch>
           </div>
