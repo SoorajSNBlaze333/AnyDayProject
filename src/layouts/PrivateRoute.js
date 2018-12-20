@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Authenticator from './Authenticator';
+import PrivateAuthenticator from './PrivateAuthenticator';
 
 export const PrivateRoute = ({ component : Component , ...rest }) => (
   <Route {...rest} render={props => (
-    <Authenticator>
+    <PrivateAuthenticator>
       <Component {...props}/>
-    </Authenticator>
+    </PrivateAuthenticator>
   )}/>
 )

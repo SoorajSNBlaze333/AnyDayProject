@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Authenticator from './Authenticator';
+import NonPrivateAuthenticator from './NonPrivateAuthenticator';
 
 export const NonPrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-    <Authenticator reverse={true}>
+    <NonPrivateAuthenticator>
       <Component {...props} />
-    </Authenticator>
+    </NonPrivateAuthenticator>
   )} />
 )

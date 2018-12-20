@@ -1,10 +1,9 @@
 const initialState = {
-    currentUser: null ,
+    currentUser: null,
     error: null,
     loader: false,
     checkIn: null,
-    checkInError: null,
-    nextLink : null
+    checkInError: null
 }
 
 const rootReducer = (state = initialState , action ) => {
@@ -19,8 +18,8 @@ const rootReducer = (state = initialState , action ) => {
             return {
                 ...state,
                 currentUser: action.payload,
-                loader: false,
-                nextLink: '/dashboard'
+                error:null,
+                loader: false
             }
         }
         case "LOGIN_FAILURE": {
@@ -34,41 +33,35 @@ const rootReducer = (state = initialState , action ) => {
             return {
                 ...state,
                 currentUser: action.payload,
-                loader: false,
-                nextLink: action.payload
+                loader: false
             }
         }
-        case "REQUEST_CHECK_IN": {
+        case "REQUEST_CHECK_IN_STATUS": {
             return {
                 ...state,
                 loader: true
             }
         }
-        case "RECIEVE_CHECK_IN": {
+        case "RECIEVE_CHECK_IN_STATUS": {
             return {
                 ...state,
-                checkIn:action.payload,
+                checkIn: action.payload,
+                checkInError:null,
                 loader:false
             }
         }
-        case "ERROR_CHECK_IN": {
+        case "ERROR_CHECK_IN_STATUS": {
             return {
                 ...state,
                 checkInError: action.payload,
                 loader:false
             }
         }
-        case "NO_CHECK_IN": {
+        case "NO_CHECK_IN_STATUS": {
             return {
                 ...state,
-                checkIn: null,
+                checkIn: action.payload,
                 loader:false
-            }
-        }
-        case "NO_AUTHENTICATE": {
-            return {
-                ...state,
-                nextLink:action.payload
             }
         }
         default:

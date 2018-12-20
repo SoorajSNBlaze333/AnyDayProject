@@ -1,7 +1,9 @@
 import { auth , provider } from '../config/firebase';
-import {  logOutUser , loginUser, loginSuccess, loginFailure, requestCheckIn, recieveCheckIn, noCheckIn , errorCheckIn } from '../Redux/actions/actions';
+import {  logOutUser , loginUser, loginSuccess, loginFailure, requestCheckInStatus, recieveCheckInStatus, noCheckInStatus , errorCheckInStatus } from '../Redux/actions/actions';
 import { store } from '../Redux/store/store';
 import { firestoreDb } from '../config/firestore';
+
+
 
 //Google sign in using provider from firebase
 export const logIn = () => {
@@ -18,6 +20,8 @@ export const logIn = () => {
   })
 }
 
+
+
 //add logged in user to firestore
 const addUser = (result) => {
       firestoreDb.collection("users").doc(result.user.uid).set({
@@ -33,6 +37,8 @@ const addUser = (result) => {
         });
 }
 
+
+
 //Google sign out
 export const logOut = () => {
   auth.signOut()
@@ -42,21 +48,25 @@ export const logOut = () => {
 }
 
 
+
+
 //Check if check in data for the user exists
 export const getCheckInStatus = (uid) => {
    store.dispatch((dispatch) => {
-     dispatch(requestCheckIn())
+     dispatch(requestCheckInStatus())
      firestoreDb.collection("checkIns").doc(uid).get()
       .then(function (doc) {
         if (doc.exists) {
-          dispatch(recieveCheckIn(doc.data()))
+          dispatch(recieveCheckInStatus(doc.data()))
         }
         else {
-          dispatch(noCheckIn())
+          dispatch(noCheckInStatus())
         }
       })
       .catch(function (error) {
-        dispatch(errorCheckIn(error))
+        dispatch(errorCheckInStatus(error))
       })
   })
 }
+
+//check into firestore

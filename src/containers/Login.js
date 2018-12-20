@@ -1,13 +1,14 @@
 import React from 'react';
 import { logIn } from '../models/Auth';
 import { connect } from 'react-redux';
-import { Loader } from 'react-bulma-components/full';
+import { Loader, Button, Box } from 'react-bulma-components/full';
 
-class Home extends React.Component {
+class Login extends React.Component {
     renderComponent() {
         const loader = this.props.loader;
-        const user = this.props.user;
-        if (user) {
+        const user = this.props.currentUser;
+        if (user)
+        {
             if (loader) {
                 return <Loader className="loader" />
             }
@@ -17,7 +18,7 @@ class Home extends React.Component {
                 return <Loader className="loader" />
             }
             else {
-                return <button onClick={logIn}>Login</button>
+                return <Box className="box"><Button className="text button-align text color textColor" onClick={logIn}>Login</Button></Box>
             }
         }
     }
@@ -36,4 +37,4 @@ const mapStateToProps = (state) => {
         loader: state.loader,
     }
 }
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Login);

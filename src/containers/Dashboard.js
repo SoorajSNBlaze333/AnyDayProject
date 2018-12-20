@@ -1,27 +1,41 @@
 import React from 'react';
-// import { getCheckInStatus } from '../models/Auth';
 import { connect } from 'react-redux';
 import { logOut } from '../models/Auth';
-import { Loader } from 'react-bulma-components/full'
-
+import { Loader, Button, Box, Section } from 'react-bulma-components/full';
+import CheckIn from '../components/CheckIn';
+import { BrowserRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
 class Dashboard extends React.Component {
+
+  renderCheckIn() {
+    return (
+     <CheckIn/>
+   )
+  }
+
   renderComponents() {
     var loader = this.props.loader;
-    var displayName = this.props.displayName;
       if (loader)
       {
         return <Loader className="loader" />
       }
       else
       {
-        console.log("cameee-!----")
-        return <div>{displayName}<button onClick={logOut}>LogOut</button></div>
+        return (
+        <div>
+          <Box className="box">
+            <Button className="text button-align text color textColor" onClick={logOut}>LogOut</Button>
+            </Box>
+            <Section>
+              {this.renderCheckIn()}
+            </Section>
+        </div>
+        )
       }
+
   }
   render() {
     return (
       <div>
-        Dashboard
         {this.renderComponents()}
       </div>
     )
@@ -29,9 +43,7 @@ class Dashboard extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.currentUser,
-    loader: state.loader,
-    displayName: state.displayName,
+    loader: state.loader
   }
 }
 export default connect(mapStateToProps)(Dashboard);

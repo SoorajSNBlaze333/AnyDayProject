@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router , Switch , Route  } from 'react-router-dom';
-import Home from './containers/Home';
 import * as Layout from './layouts/index'
-import Dashboard from './containers/Dashboard';
+import * as Container from './containers/index';
 
 
 class App extends React.Component{
@@ -12,8 +11,8 @@ class App extends React.Component{
         <Router>
           <div>
             <Switch>
-              <Layout.NonPrivateRoute exact path="/" component={Home} />
-              <Layout.PrivateRoute exact path="/dashboard" component={Dashboard}/>
+              <Layout.NonPrivateRoute exact path="/login" component={Container.Login} />
+              <Layout.PrivateRoute exact path="/dashboard" component={Container.Dashboard}/>
             </Switch>
           </div>
         </Router>

@@ -1,19 +1,8 @@
-export function LoggedIn(user){
-    return {
-        type: 'LOGIN_USER',
-        user
-    }
-}
+
 export function logOutUser() {
     return {
         type: 'LOG_OUT',
         payload: null
-    }
-}
-export function getCheckIn(data) {
-    return {
-        type: 'GET_CHECK_IN',
-        data
     }
 }
 export function loginUser() {
@@ -34,32 +23,26 @@ export function loginFailure(error) {
     }
 }
 
-export function requestCheckIn() {
+export function requestCheckInStatus() {
     return {
-        type : "REQUEST_CHECK_IN"
+        type : "REQUEST_CHECK_IN_STATUS"
     }
 }
-export function recieveCheckIn(data) {
+export function recieveCheckInStatus(data) {
     return {
-        type: "RECIEVE_CHECK_IN",
+        type: "RECIEVE_CHECK_IN_STATUS",
         payload : data
     }
 }
-export function errorCheckIn(error) {
+export function errorCheckInStatus(error) {
     return {
-        type : "ERROR_CHECK_IN",
+        type: "ERROR_CHECK_IN_STATUS",
         payload :error
     }
 }
-export function noCheckIn() {
+export function noCheckInStatus() {
     return {
-        type : "NO_CHECK_IN",
+        type: "NO_CHECK_IN_STATUS",
         payload : null
-    }
-}
-export function noAuthenticate() {
-    return {
-        type: "NO_AUTHENTICATE",
-        payload: null
     }
 }
