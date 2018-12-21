@@ -3,6 +3,7 @@ import { Loader, Button, Section } from 'react-bulma-components/full';
 import { connect } from 'react-redux';
 import { checkInFirestore , getCheckInStatus ,checkOutFirestore } from '../models/Auth';
 import moment from 'moment';
+import MyLoader from '../components/MyLoader';
 
 class CheckStatus extends React.Component{
   constructor(props) {
@@ -36,7 +37,8 @@ class CheckStatus extends React.Component{
     var checkIn = this.props.checkIn;
     var loader = this.props.loader;
     if (loader) {
-      return <Loader className="loader"/>
+      // return <Loader className="loader" />
+      return <MyLoader />
     }
     else {
       if (checkIn) {
@@ -46,8 +48,8 @@ class CheckStatus extends React.Component{
           return (
             <div className="shadow">
               <Section className="section">
-                <textarea name="checkOutMessage" onChange={this.handleChange} value={this.state.checkOutMessage} className="input" rows="4" cols="50" placeholder="Enter Checkout message here..." />
-                <Button className="button-float-right" onClick={() => this.checkOutUser()}>CheckOut</Button>
+                <textarea name="checkOutMessage" onChange={this.handleChange} value={this.state.checkOutMessage} className="textarea" rows="4" cols="50" placeholder="Enter Checkout message here..." />
+                <Button className="button-align" onClick={() => this.checkOutUser()}>CheckOut</Button>
               </Section>
             </div>
 
@@ -59,8 +61,8 @@ class CheckStatus extends React.Component{
           return (
             <div className="shadow">
               <Section className="section">
-                <textarea name="checkOutMessage" onChange={this.handleChange} value={this.state.checkOutMessage} className="input" rows="4" cols="50" placeholder="Enter Checkout message here..." />
-                <Button className="button-float-right" onClick={() => this.checkOutUser()}>CheckOut</Button>
+                <textarea name="checkOutMessage" onChange={this.handleChange} value={this.state.checkOutMessage} className="textarea" rows="4" cols="50" placeholder="Enter Checkout message here..." />
+                <Button className="button-align" onClick={() => this.checkOutUser()}>CheckOut</Button>
               </Section>
             </div>
           )
