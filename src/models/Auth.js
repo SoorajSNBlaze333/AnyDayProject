@@ -1,5 +1,5 @@
 import { auth , provider } from '../config/firebase';
-import {  logOutUser , loginUser, loginSuccess, loginFailure, requestCheckInStatus, recieveCheckInStatus, noCheckInStatus , errorCheckInStatus } from '../Redux/actions/actions';
+import {  logOutUser , loginUser, loginSuccess, loginFailure, requestCheckInStatus, successCheckInStatus, noCheckInStatus , errorCheckInStatus } from '../Redux/actions/actions';
 import { store } from '../Redux/store/store';
 import { firestoreDb } from '../config/firestore';
 import moment from 'moment';
@@ -58,7 +58,7 @@ export const getCheckInStatus = (user) => {
      firestoreDb.collection("checkIns").doc(user.uid).get()
       .then(function (doc) {
         if (doc.exists) {
-          dispatch(recieveCheckInStatus(doc.data()))
+          dispatch(successCheckInStatus(doc.data()))
         }
         else {
           dispatch(noCheckInStatus())
@@ -78,6 +78,10 @@ export const checkInFirestore = (check,user) => {
   {
     firestoreDb.collection("checkIns").doc(user.uid).update({
       uid: user.uid,
+      checkInDate: moment().format('DD-MM-YYYY'),
+      checkInTime: moment().unix(),
+      checkOutMessage:null,
+      checkOutTime: null
     })
       .then(function () {
         console.log("Updated successfully");
@@ -89,6 +93,10 @@ export const checkInFirestore = (check,user) => {
   else {
     firestoreDb.collection("checkIns").doc(user.uid).set({
       uid: user.uid,
+      checkInDate: moment().format('DD-MM-YYYY'),
+      checkInTime: moment().unix(),
+      checkOutMessage: null,
+      checkOutTime: null
     })
       .then(function () {
         console.log("Checked In successfully");
@@ -97,5 +105,17 @@ export const checkInFirestore = (check,user) => {
         console.error("Error writing document: ", error);
       });
   }
-  getCheckInStatus(user);
+}
+
+export const checkOutFirestore = (user , message) => {
+    firestoreDb.collection("checkIns").doc(user.uid).update({
+      checkOutTime: moment().unix(),
+      checkOutMessage: message
+    })
+      .then(function () {
+        console.log("Checked Out successfully");
+      })
+      .catch(function (error) {
+        console.error("Error Checking Out: ", error);
+      });
 }

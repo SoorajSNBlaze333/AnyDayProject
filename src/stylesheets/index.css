@@ -2,8 +2,13 @@
     font-size: 18px;
     font-weight: 300;
 }
+.textSmall {
+    font-size: 15px;
+    font-weight: 300;
+}
 .textColor{
     color:#fff;
+    background-color: transparent;
 }
 .color{
     background-color: transparent;
@@ -20,7 +25,7 @@
     border:1.5px solid #fff;
 }
 .box{
-    background-image: linear-gradient(left,rgb(226, 55, 55),rgb(226, 132, 55));
+    background-image: linear-gradient(left,rgb(42, 93, 187),rgb(62, 159, 214));
     border-radius: 0%;
     height:auto;
 }
@@ -50,7 +55,7 @@
     margin-right:0;
 }
 .loader{
-    border:5px solid rgb(236, 44, 44);
+    border:5px solid rgb(44, 127, 236);
     border-top-color: transparent;
     border-right-color : transparent;
     height:35px;
@@ -62,4 +67,42 @@
     padding-top:10px;
     padding-right: auto;
     padding-left: auto;
+}
+.input{
+    height:100px;
+}
+.button-float-right{
+    float: right;
+}
+.message-header{
+    background-color: #fff;
+    color:#555;
+    padding: 5px;
+}
+.message{
+    background-color: rgb(37, 74, 153);
+    color:#fff;
+    padding: 10px;
+    border-radius: 15px;
+    text-align: center;
+}
+.text-align{
+    display: block;
+    margin-left:auto;
+    margin-right:10;
+}
+/* .shadow{
+    box-shadow: 5px 10px 40px #cccccc;
+
+} */
+.Navbar{
+    z-index:-2;
+    position:relative;
+    padding:8px;
+    margin-top: -25px;
+    background-color: rgb(37, 74, 153);
+}
+.checkInStatus{
+    position:relative;
+    margin-top: 25px;
 }

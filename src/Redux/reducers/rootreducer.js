@@ -33,7 +33,8 @@ const rootReducer = (state = initialState , action ) => {
             return {
                 ...state,
                 currentUser: action.payload,
-                loader: false
+                loader: false,
+                checkIn: null
             }
         }
         case "REQUEST_CHECK_IN_STATUS": {
@@ -42,7 +43,7 @@ const rootReducer = (state = initialState , action ) => {
                 loader: true
             }
         }
-        case "RECIEVE_CHECK_IN_STATUS": {
+        case "SUCCESS_CHECK_IN_STATUS": {
             return {
                 ...state,
                 checkIn: action.payload,

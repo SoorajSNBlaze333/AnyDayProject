@@ -28,9 +28,9 @@ export function requestCheckInStatus() {
         type : "REQUEST_CHECK_IN_STATUS"
     }
 }
-export function recieveCheckInStatus(data) {
+export function successCheckInStatus(data) {
     return {
-        type: "RECIEVE_CHECK_IN_STATUS",
+        type: "SUCCESS_CHECK_IN_STATUS",
         payload : data
     }
 }

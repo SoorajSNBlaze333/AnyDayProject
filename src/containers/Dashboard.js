@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logOut } from '../models/Auth';
-import { Loader, Button, Box, Section } from 'react-bulma-components/full';
+import { Loader, Button, Box, Section , Tag , Columns } from 'react-bulma-components/full';
 import CheckStatus from '../components/CheckStatus';
-import { BrowserRouter as Router, NavLink, Route, Switch } from 'react-router-dom';
 class Dashboard extends React.Component {
 
   renderCheckStatus() {
@@ -13,6 +12,8 @@ class Dashboard extends React.Component {
   }
 
   renderComponents() {
+    var user = this.props.user;
+    console.log(user);
     var loader = this.props.loader;
       if (loader)
       {
@@ -20,18 +21,34 @@ class Dashboard extends React.Component {
       }
       else
       {
-        return (
-        <div>
-          <Box className="box">
-            <Button className="text button-align text color textColor" onClick={logOut}>LogOut</Button>
-            </Box>
-            <Section>
-              {this.renderCheckStatus()}
-            </Section>
-        </div>
-        )
+        if (user)
+        {
+          return (
+            <div>
+              <Box className="box">
+                <Button className="text button-align color textColor" onClick={logOut}> LogOut</Button>
+                <div className="textSmall textColor">{user.displayName}</div>
+              </Box>
+              <div className="Navbar">
+                <Columns>
+                  <Columns.Column size={4}>
+                    <a href="http://localhost:3000/dashboard/leaveform"  className="textSmall textColor">LeaveForm</a>
+                  </Columns.Column>
+                  <Columns.Column size={4}>
+                    <div className="textSmall textColor">IdeaPad</div>
+                  </Columns.Column>
+                  <Columns.Column size={4}>
+                    <div className="textSmall textColor">Tikomi</div>
+                  </Columns.Column>
+                </Columns>
+              </div>
+              <Section className="checkInStatus">
+                {this.renderCheckStatus()}
+              </Section>
+            </div>
+          )
+        }
       }
-
   }
   render() {
     return (
@@ -43,7 +60,8 @@ class Dashboard extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    loader: state.loader
+    loader: state.loader,
+    user: state.currentUser
   }
 }
 export default connect(mapStateToProps)(Dashboard);
