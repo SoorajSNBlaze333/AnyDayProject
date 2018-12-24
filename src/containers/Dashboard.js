@@ -16,7 +16,6 @@ class Dashboard extends React.Component {
 
   renderComponents() {
     var user = this.props.user;
-    console.log(user);
     var loader = this.props.loader;
       if (loader)
       {

@@ -46,3 +46,20 @@ export function noCheckInStatus() {
         payload : null
     }
 }
+export function requestLeaveFormSubmit() {
+    return {
+        type: "REQUEST_LEAVEFORM_SUBMIT"
+    }
+}
+export function successLeaveFormSubmit(data) {
+    return {
+        type: "SUCCESS_LEAVEFORM_SUBMIT",
+        payload: data
+    }
+}
+export function failureLeaveFormSubmit(error) {
+    return {
+        type: "FAILURE_LEAVEFORM_SUBMIT",
+        payload: error
+    }
+}

@@ -3,7 +3,8 @@ const initialState = {
     error: null,
     loader: false,
     checkIn: null,
-    checkInError: null
+    checkInError: null,
+    leaveformStatus: null
 }
 
 const rootReducer = (state = initialState , action ) => {
@@ -64,6 +65,26 @@ const rootReducer = (state = initialState , action ) => {
                 ...state,
                 checkIn: action.payload,
                 loader:false
+            }
+        }
+        case "REQUEST_LEAVEFORM_SUBMIT": {
+            return {
+                ...state,
+                loader:true
+            }
+        }
+        case "SUCCESS_LEAVEFORM_SUBMIT": {
+            return {
+                ...state,
+                loader: false,
+                leaveformStatus:action.payload
+            }
+        }
+        case "FAILURE_LEAVEFORM_SUBMIT": {
+            return {
+                ...state,
+                loader: false,
+                leaveformStatus: action.payload
             }
         }
         default:
